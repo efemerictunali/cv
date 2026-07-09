@@ -1,0 +1,355 @@
+:root {
+    --bg-color: #0a0a0a;
+    --text-primary: #e5e5e5;
+    --text-secondary: #8a8a8a;
+    --accent-color: #d4d4d4;
+    --glass-bg: rgba(255, 255, 255, 0.03);
+    --glass-border: rgba(255, 255, 255, 0.08);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Outfit', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    line-height: 1.6;
+    overflow-x: hidden;
+    position: relative;
+    min-height: 100vh;
+}
+
+a {
+    color: var(--text-primary);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
+/* Background animated blobs for aesthetic */
+.blob {
+    position: absolute;
+    filter: blur(80px);
+    z-index: -1;
+    opacity: 0.6;
+    animation: float 10s infinite ease-in-out alternate;
+}
+
+.blob-1 {
+    top: -10%;
+    left: -10%;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, #2a2a2a, #111111);
+    border-radius: 50%;
+}
+
+.blob-2 {
+    bottom: -10%;
+    right: -10%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, #333333, #0a0a0a);
+    border-radius: 50%;
+    animation-delay: -5s;
+}
+
+@keyframes float {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(50px, 50px) scale(1.1); }
+}
+
+.container {
+    max-width: 900px; /* Tek sütunda çok geniş olmaması daha okunaklı olur */
+    margin: 4rem auto;
+    padding: 0 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+}
+
+/* Glassmorphism utility */
+.glass-panel {
+    background: var(--glass-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid transparent; /* Varsayılan border şeffaf, SVG ile çizeceğiz */
+    border-radius: 24px;
+    padding: 2.5rem;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    position: relative; /* İçine eklenecek mutlak konumlu SVG için */
+}
+
+/* Dinamik SVG Kenarlık */
+.border-svg {
+    position: absolute;
+    top: 0; 
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* İçerikle etkileşimi engelleme */
+    border-radius: 24px; 
+    z-index: 10;
+    overflow: visible; /* Çizginin (stroke) kırpılmasını engellemek için */
+}
+
+.border-path {
+    fill: none;
+    stroke: var(--glass-border);
+    stroke-width: 1px;
+    /* Animasyon (JS'den stroke-dashoffset tetiklenecek, stroke rengi ise hover'da değişecek) */
+    transition: stroke-dashoffset 1.5s ease-in-out, stroke 0.4s ease;
+}
+
+/* Kutu üzerine gelindiğinde kenar çizgisinin daha parlak bir gri olması */
+fieldset.glass-panel:hover + .border-svg .border-path {
+    stroke: rgba(255, 255, 255, 0.4);
+}
+
+fieldset.glass-panel {
+    /* Özel fieldset ayarları (çizgiyi kestiği için default margin'i sıfırlıyoruz) */
+    margin: 0;
+}
+
+legend {
+    margin-left: 1.5rem; /* Sol üst köşenin biraz sağı */
+    padding: 0 1rem; /* Yazının geldiği kısımdaki kenar çizgilerini silmek için boşluk */
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--accent-color);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+}
+
+/* Kişisel Bilgiler Alanı Başlıkları */
+fieldset h1 {
+    font-size: 2.2rem;
+    margin-bottom: 0.5rem;
+}
+
+fieldset .title {
+    color: var(--accent-color);
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-size: 0.95rem;
+}
+
+.contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    font-size: 1rem;
+}
+
+.contact-info a {
+    color: var(--text-primary);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.contact-info a:hover {
+    color: var(--accent-color);
+}
+
+/* Timeline */
+.timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    position: relative;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 7px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--glass-border);
+}
+
+.timeline-item {
+    position: relative;
+    padding-left: 2rem;
+}
+
+.timeline-dot {
+    position: absolute;
+    left: 0;
+    top: 6px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--accent-color);
+    box-shadow: 0 0 10px var(--accent-color);
+}
+
+.timeline-item h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.3rem;
+}
+
+.timeline-item .date {
+    color: var(--accent-color);
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.timeline-item p {
+    color: var(--text-secondary);
+}
+
+/* Skills */
+.skills-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.skill-tag {
+    background: rgba(255, 255, 255, 0.08);
+    padding: 0.6rem 1.2rem;
+    border-radius: 2rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.skill-tag:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--accent-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.05);
+}
+
+/* Animations */
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Responsive */
+@media (max-width: 860px) {
+    .container {
+        grid-template-columns: 1fr;
+        margin: 2rem auto;
+    }
+    
+    .sidebar {
+        position: relative;
+        top: 0;
+    }
+}
+
+/* Mouse Trail Canvas */
+#trailCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* Intro Splash Screen */
+.intro-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--bg-color); /* Temaya uygun siyah arkaplan */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    transition: opacity 1.5s ease-in-out, transform 1.5s ease-in-out, visibility 1.5s;
+}
+
+.intro-screen.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(-100vh); /* Alttan üste doğru kayma efekti */
+}
+
+/* Sitenin ana içeriği başlangıçta gizli */
+.container, .blob, #trailCanvas {
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
+}
+
+/* Intro animasyonu bittikten sonra görünür yap */
+body.show-content .container,
+body.show-content .blob,
+body.show-content #trailCanvas,
+body.show-content .scroll-indicator-fixed {
+    opacity: 1;
+}
+
+/* Dinamik Kaydırma Çubuğu (Scroll Indicator) */
+.scroll-indicator-fixed {
+    position: fixed;
+    top: 2vh; /* Boyu uzatıldı */
+    bottom: 2vh; /* Boyu uzatıldı */
+    left: calc(50vw - 490px); /* Kutuların sol tarafına konumlandır */
+    width: 4px;
+    background: var(--accent-color);
+    border-radius: 4px;
+    z-index: 50;
+    opacity: 0; 
+    transition: opacity 1.5s ease-in-out;
+    -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);
+    mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);
+}
+
+@media (max-width: 1020px) {
+    .scroll-indicator-fixed {
+        left: 10px;
+    }
+}
+@media (max-width: 600px) {
+    .scroll-indicator-fixed {
+        display: none; /* Mobilde dar alan olduğu için gizle */
+    }
+}
+
+.typewriter-text {
+    font-size: 3.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    border-right: 3px solid var(--accent-color); /* Yanıp sönen imleç */
+    padding-right: 8px;
+    animation: blink 0.8s step-end infinite;
+}
+
+@keyframes blink {
+    0%, 100% { border-color: transparent; }
+    50% { border-color: var(--accent-color); }
+}
+
+@media (max-width: 600px) {
+    .typewriter-text {
+        font-size: 2rem;
+    }
+}

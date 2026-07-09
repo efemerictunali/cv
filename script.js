@@ -10,13 +10,13 @@ document.addEventListener('DOMContentLoaded', () => {
             typewriterElement.textContent += textToType.charAt(typeIndex);
             typeIndex++;
             // Harf başına bekleme süresi (doğal klavye hissi için rastgelelik eklendi)
-            const typingSpeed = Math.random() * 60 + 40; 
+            const typingSpeed = Math.random() * 60 + 40;
             setTimeout(typeWriter, typingSpeed);
         } else {
             // Yazı tamamlandıktan sonra biraz bekleyip ekranı gizle
             setTimeout(() => {
                 introScreen.classList.add('hidden');
-                
+
                 // Animasyon 1.5 saniye sürüyor. Tamamen bittiğinde sitenin içeriğini göster
                 setTimeout(() => {
                     document.body.classList.add('show-content');
@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.createElement('canvas');
     canvas.id = 'trailCanvas';
     document.querySelector('.container').before(canvas);
-    
+
     const ctx = canvas.getContext('2d');
     let width = canvas.width = window.innerWidth;
     let height = canvas.height = window.innerHeight;
@@ -89,14 +89,14 @@ document.addEventListener('DOMContentLoaded', () => {
     initGrid();
 
     // Antigravity sitesindeki etkinin %75'i büyüklüğünde bir etki alanı (yaklaşık 120px)
-    const effectRadius = 120; 
+    const effectRadius = 120;
 
     function animate() {
         ctx.clearRect(0, 0, width, height);
 
         for (let i = 0; i < particles.length; i++) {
             const p = particles[i];
-            
+
             const dx = mouse.x - p.originX;
             const dy = mouse.y - p.originY;
             const dist = Math.sqrt(dx * dx + dy * dy);
@@ -109,14 +109,14 @@ document.addEventListener('DOMContentLoaded', () => {
             if (dist < effectRadius) {
                 // Mouse'a olan uzaklığa göre etki gücü
                 const force = Math.pow((effectRadius - dist) / effectRadius, 1.2);
-                
+
                 // Noktaların mouse'a doğru çekilmesi (Gravity / Takip efekti)
                 const pullStrength = 0.4;
                 targetX = p.originX + (dx * force * pullStrength);
                 targetY = p.originY + (dy * force * pullStrength);
 
                 // Mouse etrafındaki noktaların parlaması (Grinin daha açık tonları)
-                lightness = 15 + (force * 65); 
+                lightness = 15 + (force * 65);
                 currentSize = 1 + (force * 1.5);
             }
 
@@ -132,7 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         requestAnimationFrame(animate);
     }
-    
+
     animate();
 
     // Dinamik Kaydırma Çubuğu (Scroll Indicator)
@@ -144,7 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const scrollPos = window.scrollY;
         // Maksimum kaydırma miktarını buluyoruz
         const maxScroll = document.body.scrollHeight - window.innerHeight;
-        
+
         if (maxScroll <= 0) return;
 
         const ratio = scrollPos / maxScroll; // 0 ile 1 arası
@@ -169,7 +169,7 @@ document.addEventListener('DOMContentLoaded', () => {
 window.addEventListener('load', () => {
     const fieldsets = document.querySelectorAll('fieldset.glass-panel');
     const wrappersToObserve = [];
-    
+
     // Observer ile ekrana girenleri anime et
     const borderObserver = new IntersectionObserver((entries, obs) => {
         entries.forEach(entry => {
@@ -177,7 +177,7 @@ window.addEventListener('load', () => {
                 const path = entry.target.querySelector('.border-path');
                 if (path && !path.dataset.animating) {
                     path.dataset.animating = 'true';
-                    
+
                     const length = path.getTotalLength() + 50;
 
                     function playAnimation() {
@@ -213,7 +213,7 @@ window.addEventListener('load', () => {
 
         // Başlığın tam ortasından çizgi geçmesi için Y ekseni hesabı (gerçek fieldset çizgisi konumu)
         const top_y = legend.offsetHeight / 2;
-        
+
         // Dış köşelerin koordinatları (çizgi tam merkeze oturacak şekilde 0.5px içeride)
         const y_top = top_y;
         const y_bot = h - 0.5;
@@ -246,7 +246,7 @@ window.addEventListener('load', () => {
             L ${l_left} ${y_top}
         `;
         path.setAttribute('d', d.trim().replace(/\s+/g, ' '));
-        
+
         svg.appendChild(path);
 
         // Fieldset içerisindeki padding etkilerinden kaçınmak için fieldset'i dışarıdan div ile sarıyoruz
